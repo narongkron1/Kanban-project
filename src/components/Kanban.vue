@@ -22,8 +22,9 @@
           <div
             class="drop_zone"
             @dragenter.prevent="drop_zone_enter"
-            @dragleave="drop_zone_leave"
+            @dragleave.prevent="drop_zone_leave"
             @dragover.prevent
+            @drop="drop_item(index,task_index)"
           ></div>
         </div>
 
@@ -45,6 +46,7 @@ export default {
   props: {
     data: Array,
     create_task_submit: Function,
+    move_item_task:Function
   },
   methods: {
     create_task(index_column) {
@@ -62,7 +64,7 @@ export default {
     },
     drop_zone_enter(event) {
       event.target.style.height = "100px";
-      event.target.style.borderStyle = "solid";
+      event.target.style.borderStyle = "dotted";
       event.target.style.transition = "height 0.5s";
     },
     drop_zone_leave(event) {
@@ -70,6 +72,14 @@ export default {
       event.target.style.borderStyle = "none";
       event.target.style.transition = "height 0.5s";
     },
+    drop_item(column_index,task_index){
+        this.move_item_task(
+            this.current_column_index,
+            this.current_task_index,
+            column_index,
+            task_index
+        )
+    }
   },
   data() {
     return {
@@ -126,12 +136,12 @@ export default {
   width: 100%;
 }
 .task {
-  position: relative;
+  /* position: relative; */
   width: auto;
   height: 100px;
   border-radius: 2px;
   margin: 10px;
-  background-color: #ffffff5d;
+  background-color: bisque;
 }
 .drop_zone {
   height: 10px;
